@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FC Felicidad - 福知山公立大学国際フットサルサークル</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 20px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 0;
+      color: white;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      top: -50px;
+      right: -50px;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      bottom: -30px;
+      left: -30px;
+      animation: float 8s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .logo {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(45deg, #fff, #f0f8ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+
+    .main-content {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      margin: -50px 20px 50px;
+      padding: 50px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 40px 0;
+    }
+
+    .feature-card {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      transform: translateY(0);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transform: rotate(45deg);
+      transition: all 0.5s ease;
+      opacity: 0;
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+      transform: rotate(45deg) translate(50%, 50%);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature-card:nth-child(2) {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .feature-card:nth-child(3) {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .feature-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .feature-description {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+
+    .cta-section {
+      text-align: center;
+      margin: 50px 0;
+      padding: 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 15px;
+      color: white;
+    }
+
+    .cta-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .cta-text {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 15px 25px;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .social-link:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .ball {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      animation: bounce 2s infinite;
+    }
+
+    .ball:nth-child(1) {
+      top: 20%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .ball:nth-child(2) {
+      top: 60%;
+      right: 10%;
+      animation-delay: 0.5s;
+    }
+
+    .ball:nth-child(3) {
+      bottom: 20%;
+      left: 20%;
+      animation-delay: 1s;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-30px); }
+    }
+
+    @media (max-width: 768px) {
+      .logo {
+        font-size: 2rem;
+      }
+      
+      .main-content {
+        padding: 30px 20px;
+        margin: -30px 10px 30px;
+      }
+      
+      .features {
+        grid-template-columns: 1fr;
+      }
+      
+      .social-links {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    /* Photo Gallery Styles */
+    .photo-gallery {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .photo-gallery.active {
+      display: block;
+    }
+
+    .gallery-header {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      z-index: 1001;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .gallery-title {
+      color: #333;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .close-gallery {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      background: none;
+      border: none;
+      color: #333;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .close-gallery:hover {
+      transform: scale(1.2);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .photo-item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 15px;
+      overflow: hidden;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .photo-item:hover {
+      transform: scale(1.05);
+    }
+
+    .photo-placeholder {
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .photo-placeholder .emoji {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .photo-placeholder .text {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .photo-item:nth-child(even) {
+      background: linear-gradient(45deg, #f093fb, #f5576c);
+    }
+
+    .photo-item:nth-child(3n) {
+      background: linear-gradient(45deg, #43e97b, #38f9d7);
+    }
+
+    .photo-item:nth-child(4n) {
+      background: linear-gradient(45deg, #4facfe, #00f2fe);
+    }
+
+    @media (max-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+        padding: 20px;
+      }
+      
+      .gallery-title {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="hero">
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <h1 class="logo">FC Felicidad</h1>
+        <p class="subtitle">福知山公立大学国際フットサルサークル</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="main-content">
+      <div class="features">
+        <div class="feature-card" data-gallery="diversity">
+          <span class="feature-icon">🌍</span>
+          <h3 class="feature-title">誰でも参加OK</h3>
+          <p class="feature-description">学年・性別・国籍問わず、誰でも大歓迎！初心者から経験者まで一緒に楽しもう</p>
+          <p style="font-size: 1.1rem; opacity: 0.9; margin-top: 15px; font-weight: 600;">クリックして写真を見る →</p>
+        </div>
+        
+        <div class="feature-card" data-gallery="matches">
+          <span class="feature-icon">⚽</span>
+          <h3 class="feature-title">定期練習試合</h3>
+          <p class="feature-description">月に数回の対外試合で実戦経験を積み、他大学との交流も楽しめます</p>
+          <p style="font-size: 1.1rem; opacity: 0.9; margin-top: 15px; font-weight: 600;">クリックして写真を見る →</p>
+        </div>
+        
+        <div class="feature-card" data-gallery="events">
+          <span class="feature-icon">🎉</span>
+          <h3 class="feature-title">楽しい活動</h3>
+          <p class="feature-description">フットサル以外にも様々な楽しいイベントを計画中！充実した大学生活を</p>
+          <p style="font-size: 1.1rem; opacity: 0.9; margin-top: 15px; font-weight: 600;">クリックして写真を見る →</p>
+        </div>
+      </div>
+
+      <div class="cta-section">
+        <h2 class="cta-title">一緒に最高の大学生活を送りましょう♪</h2>
+        <p class="cta-text">新しい仲間と出会い、フットサルを通じて素晴らしい思い出を作りませんか？</p>
+        
+        <div class="social-links">
+          <a href="https://www.instagram.com/fc.felicidad/" target="_blank" class="social-link">
+            <span>📸</span>
+            Instagram
+          </a>
+          <a href="https://x.com/fc_felicidad" target="_blank" class="social-link">
+            <span>🐦</span>
+            X (旧Twitter)
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Photo Galleries -->
+<div class="photo-gallery" id="diversity-gallery">
+  <div class="gallery-header">
+    <button class="close-gallery" onclick="closeGallery()">&times;</button>
+    <h2 class="gallery-title">誰でも参加OK - メンバーの写真</h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="photo-item">
+      <img src="images\IMG_1347.JPG" alt="国際色豊かなメンバー" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+    <div class="photo-item">
+      <img src="images\IMG_1348.JPG" alt="新入生歓迎の様子" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+    <div class="photo-item">
+      <img src="images\201238.JPG" alt="様々な学年のメンバー" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+    <div class="photo-item">
+      <img src="images\201348.JPG" alt="初心者も安心" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+    <div class="photo-item">
+      <img src="images\201323.JPG" alt="基礎練習の風景" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+    <div class="photo-item">
+      <img src="images\201255.JPG" alt="チームワーク" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+  </div>
+</div>
+
+<div class="photo-gallery" id="matches-gallery">
+  <div class="gallery-header">
+    <button class="close-gallery" onclick="closeGallery()">&times;</button>
+    <h2 class="gallery-title">定期練習試合 - 試合の写真</h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="photo-item">
+      <img src="images\IMG_1361.JPG" alt="試合中のプレー" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+    <div class="photo-item">
+      <img src="images\IMG_1362.JPG" alt="ドリブル突破" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+    <div class="photo-item">
+      <img src="images\IMG_1363.JPG" alt="ゴールシーン" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+    <div class="photo-item">
+      <img src="images\IMG_1355.JPG" alt="チーム一丸" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+    <div class="photo-item">
+      <img src="images\IMG_1358.JPG" alt="勝利の喜び" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+    <div class="photo-item">
+      <img src="images\IMG_1364.JPG" alt="熱い試合展開" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+  </div>
+</div>
+
+<div class="photo-gallery" id="events-gallery">
+  <div class="gallery-header">
+    <button class="close-gallery" onclick="closeGallery()">&times;</button>
+    <h2 class="gallery-title">楽しい活動 - イベントの写真</h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="photo-item">
+      <img src="images\IMG_1180.JPG" alt="チーム食事会" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+    <div class="photo-item">
+      <img src="images\IMG_1350.JPG" alt="新歓パーティー" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+    <div class="photo-item">
+      <img src="images\IMG_7967.JPG" alt="夏合宿" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+    <div class="photo-item">
+      <img src="images\IMG_1170.jpg" alt="クリスマス会" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+    <div class="photo-item">
+      <img src="images\IMG_1351.JPG" alt="お花見" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+    <div class="photo-item">
+      <img src="images\IMG_1349.JPG" alt="ゲーム大会" style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+  </div>
+</div>
+
+
+  <script>
+    // 簡単なスクロールアニメーション
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.feature-card').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(30px)';
+      card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(card);
+    });
+
+    // ソーシャルリンクにホバーエフェクト
+    document.querySelectorAll('.social-link').forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        link.style.transform = 'translateY(-3px) scale(1.05)';
+      });
+      
+      link.addEventListener('mouseleave', () => {
+        link.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+
+    // Photo Gallery Functions
+    function openGallery(galleryType) {
+      const gallery = document.getElementById(galleryType + '-gallery');
+      if (gallery) {
+        gallery.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeGallery() {
+      const galleries = document.querySelectorAll('.photo-gallery');
+      galleries.forEach(gallery => {
+        gallery.classList.remove('active');
+      });
+      document.body.style.overflow = 'auto';
+    }
+
+    // Feature card click events
+    document.querySelectorAll('.feature-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const galleryType = card.getAttribute('data-gallery');
+        openGallery(galleryType);
+      });
+    });
+
+    // Close gallery on outside click
+    document.querySelectorAll('.photo-gallery').forEach(gallery => {
+      gallery.addEventListener('click', (e) => {
+        if (e.target === gallery) {
+          closeGallery();
+        }
+      });
+    });
+
+    // Escape key to close gallery
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeGallery();
+      }
+    });
+  </script>
+</body>
+</html>
