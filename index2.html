@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FC Felicidad - 福知山公立大学国際フットサルサークル</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 20px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 0;
+      color: white;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      top: -50px;
+      right: -50px;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      bottom: -30px;
+      left: -30px;
+      animation: float 8s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .logo {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(45deg, #fff, #f0f8ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+
+    .main-content {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      margin: -50px 20px 50px;
+      padding: 50px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 40px 0;
+    }
+
+    .feature-card {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      transform: translateY(0);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transform: rotate(45deg);
+      transition: all 0.5s ease;
+      opacity: 0;
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+      transform: rotate(45deg) translate(50%, 50%);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature-card:nth-child(2) {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .feature-card:nth-child(3) {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .feature-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .feature-description {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+
+    .cta-section {
+      text-align: center;
+      margin: 50px 0;
+      padding: 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 15px;
+      color: white;
+    }
+
+    .cta-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .cta-text {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 15px 25px;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .social-link:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .ball {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      animation: bounce 2s infinite;
+    }
+
+    .ball:nth-child(1) {
+      top: 20%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .ball:nth-child(2) {
+      top: 60%;
+      right: 10%;
+      animation-delay: 0.5s;
+    }
+
+    .ball:nth-child(3) {
+      bottom: 20%;
+      left: 20%;
+      animation-delay: 1s;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-30px); }
+    }
+
+    /* Photo Gallery Styles */
+    .photo-gallery {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .photo-gallery.active {
+      display: block;
+    }
+
+    .gallery-header {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      z-index: 1001;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .gallery-title {
+      color: #333;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .close-gallery {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      background: none;
+      border: none;
+      color: #333;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .close-gallery:hover {
+      transform: scale(1.2);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .photo-item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 15px;
+      overflow: hidden;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .photo-item:hover {
+      transform: scale(1.05);
+    }
+
+    .photo-placeholder {
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .photo-placeholder .emoji {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .photo-placeholder .text {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .photo-item:nth-child(even) {
+      background: linear-gradient(45deg, #f093fb, #f5576c);
+    }
+
+    .photo-item:nth-child(3n) {
+      background: linear-gradient(45deg, #43e97b, #38f9d7);
+    }
+
+    .photo-item:nth-child(4n) {
+      background: linear-gradient(45deg, #4facfe, #00f2fe);
+    }
+
+    /* Chatbot Styles */
+    .chatbot-section {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      margin: 50px 20px;
+      padding: 50px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .chatbot-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .chatbot-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .chatbot-subtitle {
+      font-size: 1.2rem;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .chatbot-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #f8f9fa;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .chat-header h3 {
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+
+    .chat-header p {
+      opacity: 0.9;
+      font-size: 0.9rem;
+    }
+
+    .chat-area {
+      height: 400px;
+      overflow-y: auto;
+      padding: 20px;
+      background: #f8f9fa;
+    }
+
+    .message {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .message.user {
+      justify-content: flex-end;
+    }
+
+    .message.bot {
+      justify-content: flex-start;
+    }
+
+    .message-content {
+      max-width: 70%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      word-wrap: break-word;
+      line-height: 1.4;
+    }
+
+    .message.user .message-content {
+      background: #667eea;
+      color: white;
+    }
+
+    .message.bot .message-content {
+      background: white;
+      color: #333;
+      border: 1px solid #e0e0e0;
+    }
+
+    .input-area {
+      padding: 20px;
+      background: white;
+      border-top: 1px solid #e0e0e0;
+      display: flex;
+      gap: 10px;
+    }
+
+    .input-field {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 25px;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .input-field:focus {
+      border-color: #667eea;
+    }
+
+    .send-btn {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+
+    .send-btn:hover {
+      background: #5a6fd8;
+    }
+
+    .send-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 10px;
+      color: #666;
+    }
+
+    .status {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      text-align: center;
+      display: none;
+    }
+
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    @media (max-width: 768px) {
+      .logo {
+        font-size: 2rem;
+      }
+      
+      .main-content, .chatbot-section {
+        padding: 30px 20px;
+        margin: -30px 10px 30px;
+      }
+      
+      .features {
+        grid-template-columns: 1fr;
+      }
+      
+      .social-links {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+        padding: 20px;
+      }
+      
+      .gallery-title {
+        font-size: 1.5rem;
+      }
+
+      .chatbot-title {
+        font-size: 2rem;
+      }
+
+      .input-area {
+        flex-direction: column;
+      }
+
+      .input-field {
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="hero">
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <h1 class="logo">FC Felicidad</h1>
+        <p class="subtitle">福知山公立大学国際フットサルサークル</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="main-content">
+      <div class="features">
+        <div class="feature-card" data-gallery="diversity">
+          <span class="feature-icon">🌍</span>
+          <h3 class="feature-title">誰でも参加OK</h3>
+          <p class="feature-description">学年・性別・国籍問わず、誰でも大歓迎！初心者から経験者まで一緒に楽しもう</p>
+          <p style="font-size: 1.1rem; opacity: 0.9; margin-top: 15px; font-weight: 600;">クリックして写真を見る →</p>
+        </div>
+        
+        <div class="feature-card" data-gallery="matches">
+          <span class="feature-icon">⚽</span>
+          <h3 class="feature-title">定期練習試合</h3>
+          <p class="feature-description">月に数回の対外試合で実戦経験を積み、他大学との交流も楽しめます</p>
+          <p style="font-size: 1.1rem; opacity: 0.9; margin-top: 15px; font-weight: 600;">クリックして写真を見る →</p>
+        </div>
+        
+        <div class="feature-card" data-gallery="events">
+          <span class="feature-icon">🎉</span>
+          <h3 class="feature-title">楽しい活動</h3>
+          <p class="feature-description">フットサル以外にも様々な楽しいイベントを計画中！充実した大学生活を</p>
+          <p style="font-size: 1.1rem; opacity: 0.9; margin-top: 15px; font-weight: 600;">クリックして写真を見る →</p>
+        </div>
+      </div>
+
+      <div class="cta-section">
+        <h2 class="cta-title">一緒に最高の大学生活を送りましょう♪</h2>
+        <p class="cta-text">新しい仲間と出会い、フットサルを通じて素晴らしい思い出を作りませんか？</p>
+        
+        <div class="social-links">
+          <a href="https://www.instagram.com/fc.felicidad/" target="_blank" class="social-link">
+            <span>📸</span>
+            Instagram
+          </a>
+          <a href="https://x.com/fc_felicidad" target="_blank" class="social-link">
+            <span>🐦</span>
+            X (旧Twitter)
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chatbot Section -->
+    <div class="chatbot-section">
+      <div class="chatbot-header">
+        <h2 class="chatbot-title">🤖 大学情報チャットボット</h2>
+        <p class="chatbot-subtitle">福知山公立大学について質問があれば、お気軽にどうぞ！</p>
+      </div>
+      
+      <div class="chatbot-container">
+        <div class="chat-header">
+          <h3>福知山公立大学チャットボット</h3>
+          <p>学生ハンドブックの内容についてお答えします</p>
+        </div>
+        
+        <div id="status" class="status"></div>
+        
+        <div id="chatArea" class="chat-area">
+          <div class="message bot">
+            <div class="message-content">
+              こんにちは！福知山公立大学についてのご質問をお答えします。<br>
+              学生ハンドブックに関することでしたら、お気軽にお尋ねください。
+            </div>
+          </div>
+        </div>
+        
+        <div class="input-area">
+          <input type="text" id="userInput" class="input-field" placeholder="質問を入力してください..." disabled />
+          <button id="sendBtn" class="send-btn" disabled>送信</button>
+        </div>
+        
+        <div id="loading" class="loading">読み込み中...</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Photo Galleries -->
+  <div class="photo-gallery" id="diversity-gallery">
+    <div class="gallery-header">
+      <button class="close-gallery" onclick="closeGallery()">&times;</button>
+      <h2 class="gallery-title">誰でも参加OK - メンバーの写真</h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="photo-item">
+        <img src="images/IMG_1347.JPG" alt="国際色豊かなメンバー" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+      <div class="photo-item">
+        <img src="images/IMG_1348.JPG" alt="新入生歓迎の様子" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+      <div class="photo-item">
+        <img src="images/201238.JPG" alt="様々な学年のメンバー" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+      <div class="photo-item">
+        <img src="images/201348.JPG" alt="初心者も安心" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+      <div class="photo-item">
+        <img src="images/201323.JPG" alt="基礎練習の風景" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+      <div class="photo-item">
+        <img src="images/201255.JPG" alt="チームワーク" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+    </div>
+  </div>
+
+  <div class="photo-gallery" id="matches-gallery">
+    <div class="gallery-header">
+      <button class="close-gallery" onclick="closeGallery()">&times;</button>
+      <h2 class="gallery-title">定期練習試合 - 試合の写真</h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="photo-item">
+        <img src="images/IMG_1361.JPG" alt="試合中のプレー" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+      <div class="photo-item">
+        <img src="images/IMG_1362.JPG" alt="ドリブル突破" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+      <div class="photo-item">
+        <img src="images/IMG_1363.JPG" alt="ゴールシーン" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+      <div class="photo-item">
+        <img src="images/IMG_1355.JPG" alt="チーム一丸" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+      <div class="photo-item">
+        <img src="images/IMG_1358.JPG" alt="勝利の喜び" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+      <div class="photo-item">
+        <img src="images/IMG_1364.JPG" alt="熱い試合展開" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+    </div>
+  </div>
+
+  <div class="photo-gallery" id="events-gallery">
+    <div class="gallery-header">
+      <button class="close-gallery" onclick="closeGallery()">&times;</button>
+      <h2 class="gallery-title">楽しい活動 - イベントの写真</h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="photo-item">
+        <img src="images/IMG_1180.JPG" alt="チーム食事会" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+      <div class="photo-item">
+        <img src="images/IMG_1350.JPG" alt="新歓パーティー" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+      <div class="photo-item">
+        <img src="images/IMG_7967.JPG" alt="夏合宿" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+      <div class="photo-item">
+        <img src="images/IMG_1170.jpg" alt="クリスマス会" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+      <div class="photo-item">
+        <img src="images/IMG_1351.JPG" alt="お花見" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+      <div class="photo-item">
+        <img src="images/IMG_1349.JPG" alt="ゲーム大会" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Photo Gallery Functions
+    function openGallery(galleryType) {
+      const gallery = document.getElementById(galleryType + '-gallery');
+      if (gallery) {
+        gallery.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeGallery() {
+      const galleries = document.querySelectorAll('.photo-gallery');
+      galleries.forEach(gallery => {
+        gallery.classList.remove('active');
+      });
+      document.body.style.overflow = 'auto';
+    }
+
+    // Scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.feature-card').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(30px)';
+      card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(card);
+    });
+
+    // Social links hover effects
+    document.querySelectorAll('.social-link').forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        link.style.transform = 'translateY(-3px) scale(1.05)';
+      });
+      
+      link.addEventListener('mouseleave', () => {
+        link.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+
+    // Feature card click events
+    document.querySelectorAll('.feature-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const galleryType = card.getAttribute('data-gallery');
+        openGallery(galleryType);
+      });
+    });
+
+    // Close gallery on outside click
+    document.querySelectorAll('.photo-gallery').forEach(gallery => {
+      gallery.addEventListener('click', (e) => {
+        if (e.target === gallery) {
+          closeGallery();
+        }
+      });
+    });
+
+    // Escape key to close gallery
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeGallery();
+      }
+    });
+
+    // Chatbot functionality
+    class FukuchiyamaUniversityChatbot {
+      constructor() {
+        this.qaData = [];
+        this.questions = [];
+        this.answers = [];
+        this.isInitialized = false;
+        this.dataFilePath = "Student_Handbook_2025_Q&A.json";
+        this.initEventListeners();
+        this.loadDataFromFile();
+      }
+
+      initEventListeners() {
+        const sendBtn = document.getElementById('sendBtn');
+        const userInput = document.getElementById('userInput');
+
+        sendBtn.addEventListener('click', () => this.handleSendMessage());
+        userInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            this.handleSendMessage();
+          }
+        });
+      }
+
+      async loadDataFromFile() {
+        try {
+          const response = await fetch(this.dataFilePath);
+          if (!response.ok) {
+            throw new Error(`ファイルの読み込みに失敗しました: ${response.status}`);
+          }
+
+          const data = await response.json();
+
+          if (Array.isArray(data) && data.length > 0) {
+            this.loadData(data);
+            this.showStatus(`✅ ${data.length}件のQ&Aデータを読み込みました`, 'success');
+            document.getElementById('userInput').disabled = false;
+            document.getElementById('sendBtn').disabled = false;
+            this.updateInitialMessage();
+            this.isInitialized = true;
+          } else {
+            throw new Error('データの形式が正しくありません');
+          }
+        } catch (error) {
+          this.showStatus(`❌ データの読み込みに失敗しました: ${error.message}`, 'error');
+          this.showDataLoadError();
+        }
+      }
+
+      updateInitialMessage() {
+        const chatArea = document.getElementById('chatArea');
+        const firstMessage = chatArea.querySelector('.message-content');
+        if (firstMessage) {
+          firstMessage.innerHTML = `こんにちは！福知山公立大学についてのご質問をお答えします。<br>
+              学生ハンドブックに関することでしたら、お気軽にお尋ねください。<br>
+              <small style="color: #666;">📚 ${this.qaData.length}件のQ&Aデータを読み込み済み</small>`;
+        }
+      }
+
+      loadData(data) {
+        this.qaData = data;
+        this.questions = data.map(item => item.question);
+        this.answers = data.map(item => item.answer);
+      }
+
+      showStatus(message, type) {
+        const statusElement = document.getElementById('status');
+        statusElement.textContent = message;
+        statusElement.className = `status ${type}`;
+        statusElement.style.display = 'block';
+        setTimeout(() => {
+          statusElement.style.display = 'none';
+        }, 5000);
+      }
+
+      showDataLoadError() {
+        const chatArea = document.getElementById('chatArea');
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'message bot';
+        errorMessage.innerHTML = `
+          <div class="message-content">
+            申し訳ございません。現在、データの読み込みに問題が発生しており、<br>
+            質問にお答えできません。<br><br>
+            <strong>お問い合わせ方法：</strong><br>
+            📧 メール: info@fukuchiyama.ac.jp<br>
+            📞 電話: 0773-00-0000<br>
+            🏢 窓口: 学生課（平日9:00-17:00）
+          </div>
+        `;
+        chatArea.appendChild(errorMessage);
+      }
+
+      handleSendMessage() {
+        const userInput = document.getElementById('userInput');
+        const query = userInput.value.trim();
+        
+        if (!query) return;
+        
+        if (!this.isInitialized) {
+          this.showStatus('データの読み込みが完了していません。しばらくお待ちください。', 'error');
+          return;
+        }
+
+        this.addMessage(query, 'user');
+        userInput.value = '';
+        
+        this.showLoading();
+        
+        setTimeout(() => {
+          const response = this.getResponse(query);
+          this.hideLoading();
+          this.addMessage(response, 'bot');
+        }, 1000);
+      }
+
+      addMessage(message, sender) {
+        const chatArea = document.getElementById('chatArea');
+        const messageElement = document.createElement('div');
+        messageElement.className = `message ${sender}`;
+        messageElement.innerHTML = `<div class="message-content">${message}</div>`;
+        chatArea.appendChild(messageElement);
+        chatArea.scrollTop = chatArea.scrollHeight;
+      }
+
+      showLoading() {
+        document.getElementById('loading').style.display = 'block';
+      }
+
+      hideLoading() {
+        document.getElementById('loading').style.display = 'none';
+      }
+
+      getResponse(query) {
+        const normalizedQuery = query.toLowerCase().trim();
+        
+        // 基本的な挨拶への対応
+        if (this.isGreeting(normalizedQuery)) {
+          return this.getGreetingResponse();
+        }
+        
+        // 感謝の言葉への対応
+        if (this.isThanks(normalizedQuery)) {
+          return 'どういたしまして！他にもご質問がございましたら、お気軽にどうぞ。';
+        }
+        
+        // Q&Aデータからの検索
+        const bestMatch = this.findBestMatch(normalizedQuery);
+        
+        if (bestMatch.score > 0.3) {
+          return `${bestMatch.answer}<br><br><small style="color: #666;">💡 関連する質問がございましたら、お気軽にお尋ねください。</small>`;
+        }
+        
+        return this.getNoMatchResponse(query);
+      }
+
+      isGreeting(query) {
+        const greetings = ['こんにちは', 'こんばんは', 'おはよう', 'はじめまして', 'よろしく'];
+        return greetings.some(greeting => query.includes(greeting));
+      }
+
+      getGreetingResponse() {
+        const responses = [
+          'こんにちは！福知山公立大学についてのご質問をお答えします。',
+          'こんにちは！学生ハンドブックに関することでしたら、何でもお尋ねください。',
+          'こんにちは！大学生活についてのご質問をお待ちしております。'
+        ];
+        return responses[Math.floor(Math.random() * responses.length)];
+      }
+
+      isThanks(query) {
+        const thanks = ['ありがとう', 'ありがとうございます', 'サンキュー', 'おつかれ'];
+        return thanks.some(thank => query.includes(thank));
+      }
+
+      findBestMatch(query) {
+        let bestMatch = { score: 0, answer: '' };
+        
+        for (let i = 0; i < this.questions.length; i++) {
+          const score = this.calculateSimilarity(query, this.questions[i].toLowerCase());
+          if (score > bestMatch.score) {
+            bestMatch = { score, answer: this.answers[i] };
+          }
+        }
+        
+        return bestMatch;
+      }
+
+      calculateSimilarity(query, question) {
+        const queryWords = query.split(/\s+/);
+        const questionWords = question.split(/\s+/);
+        
+        let matchCount = 0;
+        const totalWords = Math.max(queryWords.length, questionWords.length);
+        
+        for (const queryWord of queryWords) {
+          if (queryWord.length > 1) {
+            for (const questionWord of questionWords) {
+              if (questionWord.includes(queryWord) || queryWord.includes(questionWord)) {
+                matchCount++;
+                break;
+              }
+            }
+          }
+        }
+        
+        return matchCount / totalWords;
+      }
+
+      getNoMatchResponse(originalQuery) {
+        const suggestions = [
+          '履修に関する質問',
+          '学費について',
+          '奨学金について',
+          '施設の利用方法',
+          '学生生活について',
+          '就職支援について'
+        ];
+        
+        const randomSuggestions = suggestions.sort(() => 0.5 - Math.random()).slice(0, 3);
+        
+        return `申し訳ございません。「${originalQuery}」に関する情報が見つかりませんでした。<br><br>
+          <strong>以下のような質問はいかがでしょうか：</strong><br>
+          • ${randomSuggestions.join('<br>• ')}<br><br>
+          <small style="color: #666;">💡 より具体的な質問をしていただくと、適切な回答ができるかもしれません。</small>`;
+      }
+    }
+
+    // Initialize chatbot when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      new FukuchiyamaUniversityChatbot();
+    });
+  </script>
+</body>
+</html>
