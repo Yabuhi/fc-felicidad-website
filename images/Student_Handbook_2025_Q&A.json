@@ -309,7 +309,7 @@
   },
   {
     "question": "年間の授業の予定を知りたい",
-    "answer": "images/gakunenreki2025.pdf"
+    "answer": "<a href='images/gakunenreki2025.pdf' target='_blank'>こちらから年間の授業予定（PDF）をご確認ください。</a>"
   },
   {
     "question": "公欠・欠席の手続きが知りたい",
@@ -333,6 +333,5 @@
   },
   {
     "question": "変更届について",
-    "answer": "images/02f987d6bd54589108b983ec79332e8e.doc"
-  }
+    "answer": "<a href='images/02f987d6bd54589108b983ec79332e8e.doc' target='_blank'>こちらからご確認ください。</a>"
 ]
