@@ -603,8 +603,8 @@
         <p class="cta-text">
 毎週日曜日の18:00-21:00　福知山市の体育館、人工芝<br>
 毎週木曜日17:00-20:00　大学1号館横の大グラウンド<br>
-練習の参加や見学の際は下記のSNSにDMしてください！</p>
-        
+練習の参加や見学の際は下記のSNSにDMしてください！</p>       
+
         <div class="social-links">
           <a href="https://www.instagram.com/fc.felicidad/" target="_blank" class="social-link">
             <span>📸</span>
@@ -810,6 +810,39 @@
     });
 
     // Chatbot functionality
+    // Googleフォーム送信クラス
+    class GoogleFormSubmitter {
+      constructor() {
+        this.formId = '1FAIpQLScv6pQhxj5L11h7QsLbr7hB639Rp44KJufgny1JfqZA_4tmuQ';
+        this.entryIds = {
+          question: 'entry.YAqjbf',
+          timestamp: 'entry.YPqjbf'
+        };
+        this.baseUrl = `https://docs.google.com/forms/d/e/${this.formId}/formResponse`;
+      }
+
+      async submitQuestion(question) {
+        try {
+          const formData = new FormData();
+          formData.append(this.entryIds.question, question);
+          formData.append(this.entryIds.timestamp, new Date().toLocaleString('ja-JP'));
+
+          await fetch(this.baseUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: formData
+          });
+
+          console.log('質問送信完了');
+          return { success: true };
+        } catch (error) {
+          console.error('送信エラー:', error);
+          return { success: false, error: error.message };
+        }
+      }
+    }
+
+    // メインのチャットボットクラス
     class FukuchiyamaUniversityChatbot {
       constructor() {
         this.qaData = [];
@@ -817,6 +850,10 @@
         this.answers = [];
         this.isInitialized = false;
         this.dataFilePath = "images/Student_Handbook_2025_Q&A.json";
+        
+        // Googleフォーム送信機能を追加
+        this.formSubmitter = new GoogleFormSubmitter();
+        
         this.initEventListeners();
         this.loadDataFromFile();
       }
@@ -911,6 +948,9 @@
           this.showStatus('データの読み込みが完了していません。しばらくお待ちください。', 'error');
           return;
         }
+
+        // Googleフォームに質問を送信
+        this.formSubmitter.submitQuestion(query);
 
         this.addMessage(query, 'user');
         userInput.value = '';
@@ -1019,12 +1059,12 @@
 
       getNoMatchResponse(originalQuery) {
         const suggestions = [
-          '履修に関する質問',
-          '学費について',
-          '奨学金について',
-          '施設の利用方法',
-          '学生生活について',
-          '就職支援について'
+          'ロッカーについて',
+          '食堂について',
+          'コピー機について',
+          '1号館について',
+          '保健室について',
+          'メディアセンターについて'
         ];
         
         const randomSuggestions = suggestions.sort(() => 0.5 - Math.random()).slice(0, 3);
