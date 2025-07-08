@@ -1,89 +1,101 @@
-// Menu Navigation Functions
+// メニューのトグル機能
 function toggleMenu() {
   const menuItems = document.getElementById('menuItems');
   const menuToggle = document.querySelector('.menu-toggle');
   
-  if (menuItems) {
+  if (menuItems && menuToggle) {
     menuItems.classList.toggle('active');
-    if (menuToggle) {
-      menuToggle.classList.toggle('active');
-    }
+    menuToggle.classList.toggle('active');
   }
 }
 
-function initMenuNavigation() {
-  // メニューリンクのクリックイベントを設定
-  const menuLinks = document.querySelectorAll('nav a, .menu a, .navigation a, .menu-item');
+// ギャラリー機能
+function openGallery(galleryId) {
+  const gallery = document.getElementById(galleryId);
+  if (gallery) {
+    gallery.classList.add('active');
+    document.body.style.overflow = 'hidden'; // スクロールを無効化
+  }
+}
+
+function closeGallery() {
+  const galleries = document.querySelectorAll('.photo-gallery');
+  galleries.forEach(gallery => {
+    gallery.classList.remove('active');
+  });
+  document.body.style.overflow = 'auto'; // スクロールを有効化
+}
+
+// フィーチャーカードクリック時のギャラリー表示
+document.addEventListener('DOMContentLoaded', function() {
+  const featureCards = document.querySelectorAll('.feature-card');
   
-  menuLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
-      const href = this.getAttribute('href');
-      
-      // 相対パスまたは絶対パスのHTMLファイルの場合
-      if (href && (href.endsWith('.html') || href.includes('contact') || href.includes('members'))) {
-        // リンクが正しく動作するか確認
-        console.log('Navigation to:', href);
-        
-        // モバイルメニューを閉じる
-        const menuItems = document.getElementById('menuItems');
-        if (menuItems) {
-          menuItems.classList.remove('active');
-        }
-        
-        // ファイルが存在するかチェック（オプション）
-        checkFileExists(href).then(exists => {
-          if (!exists) {
-            console.error('File not found:', href);
-            showError(`ページが見つかりません: ${href}`);
-          }
-        });
+  featureCards.forEach(card => {
+    card.addEventListener('click', function() {
+      const galleryType = this.getAttribute('data-gallery');
+      if (galleryType) {
+        openGallery(galleryType + '-gallery');
       }
     });
   });
-}
+  
+  // ESCキーでギャラリーを閉じる
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      closeGallery();
+    }
+  });
+  
+  // ギャラリーの背景クリックで閉じる
+  const galleries = document.querySelectorAll('.photo-gallery');
+  galleries.forEach(gallery => {
+    gallery.addEventListener('click', function(event) {
+      if (event.target === this) {
+        closeGallery();
+      }
+    });
+  });
+});
 
-// ファイルの存在確認関数
-async function checkFileExists(url) {
-  try {
-    const response = await fetch(url, { method: 'HEAD' });
-    return response.ok;
-  } catch (error) {
-    console.error('Error checking file:', error);
-    return false;
+// ページが完全に読み込まれた後の初期化
+window.addEventListener('load', function() {
+  // メニューボタンが存在するかチェック
+  const menuToggle = document.querySelector('.menu-toggle');
+  if (menuToggle) {
+    console.log('メニューボタンが正常に読み込まれました');
+  } else {
+    console.error('メニューボタンが見つかりません');
   }
-}
+  
+  // メニューアイテムが存在するかチェック
+  const menuItems = document.getElementById('menuItems');
+  if (menuItems) {
+    console.log('メニューアイテムが正常に読み込まれました');
+  } else {
+    console.error('メニューアイテムが見つかりません');
+  }
+});
 
-// エラーメッセージ表示関数
-function showError(message) {
-  // 既存のエラーメッセージを削除
-  const existingError = document.querySelector('.error-message');
-  if (existingError) {
-    existingError.remove();
+// レスポンシブ対応：ウィンドウサイズ変更時の処理
+window.addEventListener('resize', function() {
+  const menuItems = document.getElementById('menuItems');
+  const menuToggle = document.querySelector('.menu-toggle');
+  
+  // デスクトップサイズになったらメニューを表示状態に戻す
+  if (window.innerWidth > 768) {
+    if (menuItems) {
+      menuItems.classList.remove('active');
+    }
+    if (menuToggle) {
+      menuToggle.classList.remove('active');
+    }
   }
-  
-  // エラーメッセージを作成
-  const errorDiv = document.createElement('div');
-  errorDiv.className = 'error-message';
-  errorDiv.style.cssText = `
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #ff4444;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    z-index: 9999;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-  `;
-  errorDiv.textContent = message;
-  
-  document.body.appendChild(errorDiv);
-  
-  // 3秒後に自動削除
-  setTimeout(() => {
-    errorDiv.remove();
-  }, 3000);
-}
+});
+
+// エラーハンドリング
+window.addEventListener('error', function(event) {
+  console.error('JavaScriptエラーが発生しました:', event.error);
+});
 
 // Mobile Menu Toggle (モバイルメニューがある場合)
 function initMobileMenu() {
