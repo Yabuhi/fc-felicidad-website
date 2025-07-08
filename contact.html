@@ -1,1 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お問い合わせ - FC Felicidad</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <nav class="nav-menu">
+      <button class="menu-toggle" onclick="toggleMenu()">
+        <span>☰</span>
+        メニュー
+      </button>
+      <div class="menu-items" id="menuItems">
+        <a href="index.html" class="menu-item">ホーム</a>
+        <a href="members.html" class="menu-item">メンバー一覧</a>
+        <a href="contact.html" class="menu-item">お問い合わせ</a>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="hero">
+        <h1 class="logo">FC Felicidad</h1>
+        <p class="subtitle">お問い合わせ</p>
+      </div>
+    </div>
+  </header>
 
+  <main class="container">
+    <!-- サークル連絡先 -->
+    <div class="main-content">
+      <h2 style="text-align: center; color: #667eea; margin-bottom: 30px;">サークルへのお問い合わせ</h2>
+      
+      <div class="cta-section">
+        <p class="cta-text">
+          FC Felicidadに関するご質問やご相談は、<br>
+          下記のSNSアカウントまでお気軽にDMください！
+        </p>
+        
+        <div class="social-links">
+          <a href="https://www.instagram.com/fc.felicidad/" target="_blank" class="social-link">
+            <span>📸</span>
+            Instagram
+          </a>
+          <a href="https://x.com/fc_felicidad" target="_blank" class="social-link">
+            <span>🐦</span>
+            X (旧Twitter)
+          </a>
+        </div>
+        
+        <div style="margin-top: 30px; text-align: center;">
+          <p style="color: white; font-size: 1.1rem; margin-bottom: 15px;">
+            <strong>練習スケジュール</strong>
+          </p>
+          <p style="color: white; opacity: 0.9;">
+            毎週日曜日 18:00-21:00 福知山市の体育館、人工芝<br>
+            毎週木曜日 17:00-20:00 大学1号館横の大グラウンド
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 大学情報チャットボット -->
+    <div class="chatbot-section">
+      <div class="chatbot-header">
+        <h2 class="chatbot-title">🤖 大学情報チャットボット</h2>
+        <p class="chatbot-subtitle">福知山公立大学について質問があれば、お気軽にどうぞ！</p>
+      </div>
+      
+      <div class="chatbot-container">
+        <div class="chat-header">
+          <h3>福知山公立大学チャットボット</h3>
+          <p>学生ハンドブックの内容についてお答えします</p>
+        </div>
+        
+        <div id="status" class="status"></div>
+        
+        <div id="chatArea" class="chat-area">
+          <div class="message bot">
+            <div class="message-content">
+              こんにちは！福知山公立大学についてのご質問をお答えします。<br>
+              学生ハンドブックに関することでしたら、お気軽にお尋ねください。
+            </div>
+          </div>
+        </div>
+        
+        <div class="input-area">
+          <input type="text" id="userInput" class="input-field" placeholder="質問を入力してください..." disabled />
+          <button id="sendBtn" class="send-btn" disabled>送信</button>
+        </div>
+        
+        <div id="loading" class="loading">読み込み中...</div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
