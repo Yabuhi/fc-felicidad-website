@@ -1,3 +1,104 @@
+// Menu Navigation Functions
+function toggleMenu() {
+  const menuItems = document.getElementById('menuItems');
+  const menuToggle = document.querySelector('.menu-toggle');
+  
+  if (menuItems) {
+    menuItems.classList.toggle('active');
+    if (menuToggle) {
+      menuToggle.classList.toggle('active');
+    }
+  }
+}
+
+function initMenuNavigation() {
+  // メニューリンクのクリックイベントを設定
+  const menuLinks = document.querySelectorAll('nav a, .menu a, .navigation a, .menu-item');
+  
+  menuLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      
+      // 相対パスまたは絶対パスのHTMLファイルの場合
+      if (href && (href.endsWith('.html') || href.includes('contact') || href.includes('members'))) {
+        // リンクが正しく動作するか確認
+        console.log('Navigation to:', href);
+        
+        // モバイルメニューを閉じる
+        const menuItems = document.getElementById('menuItems');
+        if (menuItems) {
+          menuItems.classList.remove('active');
+        }
+        
+        // ファイルが存在するかチェック（オプション）
+        checkFileExists(href).then(exists => {
+          if (!exists) {
+            console.error('File not found:', href);
+            showError(`ページが見つかりません: ${href}`);
+          }
+        });
+      }
+    });
+  });
+}
+
+// ファイルの存在確認関数
+async function checkFileExists(url) {
+  try {
+    const response = await fetch(url, { method: 'HEAD' });
+    return response.ok;
+  } catch (error) {
+    console.error('Error checking file:', error);
+    return false;
+  }
+}
+
+// エラーメッセージ表示関数
+function showError(message) {
+  // 既存のエラーメッセージを削除
+  const existingError = document.querySelector('.error-message');
+  if (existingError) {
+    existingError.remove();
+  }
+  
+  // エラーメッセージを作成
+  const errorDiv = document.createElement('div');
+  errorDiv.className = 'error-message';
+  errorDiv.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #ff4444;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 9999;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  `;
+  errorDiv.textContent = message;
+  
+  document.body.appendChild(errorDiv);
+  
+  // 3秒後に自動削除
+  setTimeout(() => {
+    errorDiv.remove();
+  }, 3000);
+}
+
+// Mobile Menu Toggle (モバイルメニューがある場合)
+function initMobileMenu() {
+  const mobileMenuToggle = document.querySelector('.mobile-menu-toggle, .hamburger, .menu-toggle');
+  const mobileMenu = document.querySelector('.mobile-menu, .nav-menu');
+  
+  if (mobileMenuToggle && mobileMenu) {
+    mobileMenuToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      mobileMenu.classList.toggle('active');
+      this.classList.toggle('active');
+    });
+  }
+}
+
 // Photo Gallery Functions
 function openGallery(galleryType) {
   const gallery = document.getElementById(galleryType + '-gallery');
@@ -125,12 +226,17 @@ class FukuchiyamaUniversityChatbot {
     const sendBtn = document.getElementById('sendBtn');
     const userInput = document.getElementById('userInput');
 
-    sendBtn.addEventListener('click', () => this.handleSendMessage());
-    userInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        this.handleSendMessage();
-      }
-    });
+    if (sendBtn) {
+      sendBtn.addEventListener('click', () => this.handleSendMessage());
+    }
+    
+    if (userInput) {
+      userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          this.handleSendMessage();
+        }
+      });
+    }
   }
 
   async loadDataFromFile() {
@@ -145,8 +251,10 @@ class FukuchiyamaUniversityChatbot {
       if (Array.isArray(data) && data.length > 0) {
         this.loadData(data);
         this.showStatus(`✅ ${data.length}件のQ&Aデータを読み込みました`, 'success');
-        document.getElementById('userInput').disabled = false;
-        document.getElementById('sendBtn').disabled = false;
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        if (userInput) userInput.disabled = false;
+        if (sendBtn) sendBtn.disabled = false;
         this.updateInitialMessage();
         this.isInitialized = true;
       } else {
@@ -160,11 +268,13 @@ class FukuchiyamaUniversityChatbot {
 
   updateInitialMessage() {
     const chatArea = document.getElementById('chatArea');
-    const firstMessage = chatArea.querySelector('.message-content');
-    if (firstMessage) {
-      firstMessage.innerHTML = `こんにちは！福知山公立大学についてのご質問をお答えします。<br>
-          学生ハンドブックに関することでしたら、お気軽にお尋ねください。<br>
-          <small style="color: #666;">📚 ${this.qaData.length}件のQ&Aデータを読み込み済み</small>`;
+    if (chatArea) {
+      const firstMessage = chatArea.querySelector('.message-content');
+      if (firstMessage) {
+        firstMessage.innerHTML = `こんにちは！福知山公立大学についてのご質問をお答えします。<br>
+            学生ハンドブックに関することでしたら、お気軽にお尋ねください。<br>
+            <small style="color: #666;">📚 ${this.qaData.length}件のQ&Aデータを読み込み済み</small>`;
+      }
     }
   }
 
@@ -176,33 +286,39 @@ class FukuchiyamaUniversityChatbot {
 
   showStatus(message, type) {
     const statusElement = document.getElementById('status');
-    statusElement.textContent = message;
-    statusElement.className = `status ${type}`;
-    statusElement.style.display = 'block';
-    setTimeout(() => {
-      statusElement.style.display = 'none';
-    }, 5000);
+    if (statusElement) {
+      statusElement.textContent = message;
+      statusElement.className = `status ${type}`;
+      statusElement.style.display = 'block';
+      setTimeout(() => {
+        statusElement.style.display = 'none';
+      }, 5000);
+    }
   }
 
   showDataLoadError() {
     const chatArea = document.getElementById('chatArea');
-    const errorMessage = document.createElement('div');
-    errorMessage.className = 'message bot';
-    errorMessage.innerHTML = `
-      <div class="message-content">
-        申し訳ございません。現在、データの読み込みに問題が発生しており、<br>
-        質問にお答えできません。<br><br>
-        <strong>お問い合わせ方法：</strong><br>
-        📧 メール: info@fukuchiyama.ac.jp<br>
-        📞 電話: 0773-00-0000<br>
-        🏢 窓口: 学生課（平日9:00-17:00）
-      </div>
-    `;
-    chatArea.appendChild(errorMessage);
+    if (chatArea) {
+      const errorMessage = document.createElement('div');
+      errorMessage.className = 'message bot';
+      errorMessage.innerHTML = `
+        <div class="message-content">
+          申し訳ございません。現在、データの読み込みに問題が発生しており、<br>
+          質問にお答えできません。<br><br>
+          <strong>お問い合わせ方法：</strong><br>
+          📧 メール: info@fukuchiyama.ac.jp<br>
+          📞 電話: 0773-00-0000<br>
+          🏢 窓口: 学生課（平日9:00-17:00）
+        </div>
+      `;
+      chatArea.appendChild(errorMessage);
+    }
   }
 
   handleSendMessage() {
     const userInput = document.getElementById('userInput');
+    if (!userInput) return;
+    
     const query = userInput.value.trim();
     
     if (!query) return;
@@ -229,19 +345,27 @@ class FukuchiyamaUniversityChatbot {
 
   addMessage(message, sender) {
     const chatArea = document.getElementById('chatArea');
-    const messageElement = document.createElement('div');
-    messageElement.className = `message ${sender}`;
-    messageElement.innerHTML = `<div class="message-content">${message}</div>`;
-    chatArea.appendChild(messageElement);
-    chatArea.scrollTop = chatArea.scrollHeight;
+    if (chatArea) {
+      const messageElement = document.createElement('div');
+      messageElement.className = `message ${sender}`;
+      messageElement.innerHTML = `<div class="message-content">${message}</div>`;
+      chatArea.appendChild(messageElement);
+      chatArea.scrollTop = chatArea.scrollHeight;
+    }
   }
 
   showLoading() {
-    document.getElementById('loading').style.display = 'block';
+    const loading = document.getElementById('loading');
+    if (loading) {
+      loading.style.display = 'block';
+    }
   }
 
   hideLoading() {
-    document.getElementById('loading').style.display = 'none';
+    const loading = document.getElementById('loading');
+    if (loading) {
+      loading.style.display = 'none';
+    }
   }
 
   getResponse(query) {
@@ -333,13 +457,22 @@ class FukuchiyamaUniversityChatbot {
     const randomSuggestions = suggestions.sort(() => 0.5 - Math.random()).slice(0, 3);
     
     return `申し訳ございません。「${originalQuery}」に関する情報が見つかりませんでした。<br><br>
-      <strong>以下のような質問はいかがでしょうか：</strong><br>
-      • ${randomSuggestions.join('<br>• ')}<br><br>
-      <small style="color: #666;">💡 より具体的な質問をしていただくと、適切な回答ができるかもしれません。</small>`;
+        <strong>以下のような質問はいかがでしょうか：</strong><br>
+        • ${randomSuggestions.join('<br>• ')}<br><br>
+        <small style="color: #666;">💡 より具体的な質問をしていただくと、適切な回答ができるかもしれません。</small>`;
   }
 }
 
-// Initialize chatbot when page loads
+// Initialize all functions when page loads
 document.addEventListener('DOMContentLoaded', () => {
-  new FukuchiyamaUniversityChatbot();
+  // メニューナビゲーション初期化
+  initMenuNavigation();
+  
+  // モバイルメニュー初期化
+  initMobileMenu();
+  
+  // チャットボット初期化（チャットボット要素が存在する場合のみ）
+  if (document.getElementById('chatArea')) {
+    new FukuchiyamaUniversityChatbot();
+  }
 });
