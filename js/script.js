@@ -1,199 +1,489 @@
-// メニュー機能のJavaScript（既存のHTMLメニュー構造を使用）
+// メニューのトグル機能
+function toggleMenu() {
+  const menuItems = document.getElementById('menuItems');
+  const menuToggle = document.querySelector('.menu-toggle');
+  
+  if (menuItems && menuToggle) {
+    menuItems.classList.toggle('active');
+    menuToggle.classList.toggle('active');
+  }
+}
 
-class MenuManager {
+// ギャラリー機能
+function openGallery(galleryId) {
+  const gallery = document.getElementById(galleryId);
+  if (gallery) {
+    gallery.classList.add('active');
+    document.body.style.overflow = 'hidden'; // スクロールを無効化
+  }
+}
+
+function closeGallery() {
+  const galleries = document.querySelectorAll('.photo-gallery');
+  galleries.forEach(gallery => {
+    gallery.classList.remove('active');
+  });
+  document.body.style.overflow = 'auto'; // スクロールを有効化
+}
+
+// フィーチャーカードクリック時のギャラリー表示
+document.addEventListener('DOMContentLoaded', function() {
+  const featureCards = document.querySelectorAll('.feature-card');
+  
+  featureCards.forEach(card => {
+    card.addEventListener('click', function() {
+      const galleryType = this.getAttribute('data-gallery');
+      if (galleryType) {
+        openGallery(galleryType + '-gallery');
+      }
+    });
+  });
+  
+  // ESCキーでギャラリーを閉じる
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      closeGallery();
+    }
+  });
+  
+  // ギャラリーの背景クリックで閉じる
+  const galleries = document.querySelectorAll('.photo-gallery');
+  galleries.forEach(gallery => {
+    gallery.addEventListener('click', function(event) {
+      if (event.target === this) {
+        closeGallery();
+      }
+    });
+  });
+});
+
+// ページが完全に読み込まれた後の初期化
+window.addEventListener('load', function() {
+  // メニューボタンが存在するかチェック
+  const menuToggle = document.querySelector('.menu-toggle');
+  if (menuToggle) {
+    console.log('メニューボタンが正常に読み込まれました');
+  } else {
+    console.error('メニューボタンが見つかりません');
+  }
+  
+  // メニューアイテムが存在するかチェック
+  const menuItems = document.getElementById('menuItems');
+  if (menuItems) {
+    console.log('メニューアイテムが正常に読み込まれました');
+  } else {
+    console.error('メニューアイテムが見つかりません');
+  }
+});
+
+// レスポンシブ対応：ウィンドウサイズ変更時の処理
+window.addEventListener('resize', function() {
+  const menuItems = document.getElementById('menuItems');
+  const menuToggle = document.querySelector('.menu-toggle');
+  
+  // デスクトップサイズになったらメニューを表示状態に戻す
+  if (window.innerWidth > 768) {
+    if (menuItems) {
+      menuItems.classList.remove('active');
+    }
+    if (menuToggle) {
+      menuToggle.classList.remove('active');
+    }
+  }
+});
+
+// エラーハンドリング
+window.addEventListener('error', function(event) {
+  console.error('JavaScriptエラーが発生しました:', event.error);
+});
+
+// Mobile Menu Toggle (モバイルメニューがある場合)
+function initMobileMenu() {
+  const mobileMenuToggle = document.querySelector('.mobile-menu-toggle, .hamburger, .menu-toggle');
+  const mobileMenu = document.querySelector('.mobile-menu, .nav-menu');
+  
+  if (mobileMenuToggle && mobileMenu) {
+    mobileMenuToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      mobileMenu.classList.toggle('active');
+      this.classList.toggle('active');
+    });
+  }
+}
+
+// Photo Gallery Functions
+function openGallery(galleryType) {
+  const gallery = document.getElementById(galleryType + '-gallery');
+  if (gallery) {
+    gallery.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeGallery() {
+  const galleries = document.querySelectorAll('.photo-gallery');
+  galleries.forEach(gallery => {
+    gallery.classList.remove('active');
+  });
+  document.body.style.overflow = 'auto';
+}
+
+// Scroll animations
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.feature-card').forEach(card => {
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(30px)';
+  card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(card);
+});
+
+// Social links hover effects
+document.querySelectorAll('.social-link').forEach(link => {
+  link.addEventListener('mouseenter', () => {
+    link.style.transform = 'translateY(-3px) scale(1.05)';
+  });
+  
+  link.addEventListener('mouseleave', () => {
+    link.style.transform = 'translateY(0) scale(1)';
+  });
+});
+
+// Feature card click events
+document.querySelectorAll('.feature-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const galleryType = card.getAttribute('data-gallery');
+    openGallery(galleryType);
+  });
+});
+
+// Close gallery on outside click
+document.querySelectorAll('.photo-gallery').forEach(gallery => {
+  gallery.addEventListener('click', (e) => {
+    if (e.target === gallery) {
+      closeGallery();
+    }
+  });
+});
+
+// Escape key to close gallery
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeGallery();
+  }
+});
+
+// Chatbot functionality
+// Googleフォーム送信クラス
+class GoogleFormSubmitter {
   constructor() {
-    this.menuToggle = null;
-    this.menuItems = null;
-    this.isMenuOpen = false;
-    
-    this.init();
+    this.formId = '1FAIpQLScv6pQhxj5L11h7QsLbr7hB639Rp44KJufgny1JfqZA_4tmuQ';
+    this.entryIds = {
+      question: 'entry.1080781250',
+      timestamp: 'entry.833953602'
+    };
+    this.baseUrl = https://docs.google.com/forms/d/e/${this.formId}/formResponse;
   }
 
-  init() {
-    // DOMが読み込まれてから実行
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => this.setupMenu());
-    } else {
-      this.setupMenu();
-    }
-  }
+  async submitQuestion(question) {
+    try {
+      const formData = new FormData();
+      formData.append(this.entryIds.question, question);
+      formData.append(this.entryIds.timestamp, new Date().toLocaleString('ja-JP'));
 
-  setupMenu() {
-    // 既存のメニュー要素を取得
-    this.menuToggle = document.querySelector('.menu-toggle');
-    this.menuItems = document.querySelector('.menu-items');
-    
-    // メニューが存在しない場合は作成
-    if (!this.menuToggle || !this.menuItems) {
-      this.createMenuElements();
-    }
-    
-    // イベントリスナーを設定
-    this.setupEventListeners();
-    
-    // 初期状態の設定
-    this.setupInitialState();
-  }
-
-  createMenuElements() {
-    const header = document.querySelector('header .container');
-    if (!header) return;
-
-    // 既存のメニューを削除
-    const existingMenu = header.querySelector('.nav-menu');
-    if (existingMenu) {
-      existingMenu.remove();
-    }
-
-    // メニューHTMLを作成
-    const menuHTML = `
-      <div class="nav-menu">
-        <button class="menu-toggle">
-          <span class="menu-icon">☰</span>
-          <span class="menu-text">メニュー</span>
-        </button>
-        <nav class="menu-items">
-          <a href="#home" class="menu-item">ホーム</a>
-          <a href="#about" class="menu-item">サークルについて</a>
-          <a href="#activities" class="menu-item">活動内容</a>
-          <a href="#photos" class="menu-item">写真ギャラリー</a>
-          <a href="#chatbot" class="menu-item">大学情報Bot</a>
-          <a href="#contact" class="menu-item">お問い合わせ</a>
-        </nav>
-      </div>
-    `;
-
-    header.insertAdjacentHTML('afterbegin', menuHTML);
-    
-    // 要素の参照を再取得
-    this.menuToggle = document.querySelector('.menu-toggle');
-    this.menuItems = document.querySelector('.menu-items');
-  }
-
-  setupEventListeners() {
-    if (!this.menuToggle || !this.menuItems) return;
-
-    // メニューボタンのクリックイベント
-    this.menuToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      this.toggleMenu();
-    });
-
-    // メニューアイテムのクリックイベント
-    this.menuItems.addEventListener('click', (e) => {
-      if (e.target.classList.contains('menu-item')) {
-        this.handleMenuItemClick(e);
-      }
-    });
-
-    // 外部クリックでメニューを閉じる
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.nav-menu') && this.isMenuOpen) {
-        this.closeMenu();
-      }
-    });
-
-    // Escapeキーでメニューを閉じる
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.isMenuOpen) {
-        this.closeMenu();
-      }
-    });
-
-    // ウィンドウリサイズ時の処理
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 768 && this.isMenuOpen) {
-        this.closeMenu();
-      }
-    });
-  }
-
-  setupInitialState() {
-    this.closeMenu();
-  }
-
-  toggleMenu() {
-    if (this.isMenuOpen) {
-      this.closeMenu();
-    } else {
-      this.openMenu();
-    }
-  }
-
-  openMenu() {
-    if (!this.menuItems) return;
-
-    this.menuItems.classList.add('active');
-    this.isMenuOpen = true;
-    
-    // メニューアイコンの変更
-    const menuIcon = this.menuToggle.querySelector('.menu-icon');
-    if (menuIcon) {
-      menuIcon.textContent = '✕';
-    }
-  }
-
-  closeMenu() {
-    if (!this.menuItems) return;
-
-    this.menuItems.classList.remove('active');
-    this.isMenuOpen = false;
-    
-    // メニューアイコンの変更
-    const menuIcon = this.menuToggle.querySelector('.menu-icon');
-    if (menuIcon) {
-      menuIcon.textContent = '☰';
-    }
-  }
-
-  handleMenuItemClick(e) {
-    e.preventDefault();
-    const href = e.target.getAttribute('href');
-    
-    // メニューを閉じる
-    this.closeMenu();
-    
-    // スムーズスクロール処理
-    this.smoothScrollTo(href);
-  }
-
-  smoothScrollTo(target) {
-    let element = null;
-    
-    switch(target) {
-      case '#home':
-        element = document.querySelector('header');
-        break;
-      case '#about':
-        element = document.querySelector('.main-content');
-        break;
-      case '#activities':
-        element = document.querySelector('.features');
-        break;
-      case '#photos':
-        element = document.querySelector('.cta-section');
-        break;
-      case '#chatbot':
-        element = document.querySelector('.chatbot-section');
-        break;
-      case '#contact':
-        element = document.querySelector('.social-links');
-        break;
-      default:
-        element = document.querySelector(target);
-    }
-
-    if (element) {
-      const offsetTop = element.offsetTop - 80;
-      window.scrollTo({
-        top: offsetTop,
-        behavior: 'smooth'
+      await fetch(this.baseUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formData
       });
+
+      console.log('質問送信完了');
+      return { success: true };
+    } catch (error) {
+      console.error('送信エラー:', error);
+      return { success: false, error: error.message };
     }
   }
 }
 
-// 初期化
+// メインのチャットボットクラス
+class FukuchiyamaUniversityChatbot {
+  constructor() {
+    this.qaData = [];
+    this.questions = [];
+    this.answers = [];
+    this.isInitialized = false;
+    this.dataFilePath = "images/Student_Handbook_2025_Q&A.json";
+    
+    // Googleフォーム送信機能を追加
+    this.formSubmitter = new GoogleFormSubmitter();
+    
+    this.initEventListeners();
+    this.loadDataFromFile();
+  }
+
+  initEventListeners() {
+    const sendBtn = document.getElementById('sendBtn');
+    const userInput = document.getElementById('userInput');
+
+    if (sendBtn) {
+      sendBtn.addEventListener('click', () => this.handleSendMessage());
+    }
+    
+    if (userInput) {
+      userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          this.handleSendMessage();
+        }
+      });
+    }
+  }
+
+  async loadDataFromFile() {
+    try {
+      const response = await fetch(this.dataFilePath);
+      if (!response.ok) {
+        throw new Error(ファイルの読み込みに失敗しました: ${response.status});
+      }
+
+      const data = await response.json();
+
+      if (Array.isArray(data) && data.length > 0) {
+        this.loadData(data);
+        this.showStatus(✅ ${data.length}件のQ&Aデータを読み込みました, 'success');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        if (userInput) userInput.disabled = false;
+        if (sendBtn) sendBtn.disabled = false;
+        this.updateInitialMessage();
+        this.isInitialized = true;
+      } else {
+        throw new Error('データの形式が正しくありません');
+      }
+    } catch (error) {
+      this.showStatus(❌ データの読み込みに失敗しました: ${error.message}, 'error');
+      this.showDataLoadError();
+    }
+  }
+
+  updateInitialMessage() {
+    const chatArea = document.getElementById('chatArea');
+    if (chatArea) {
+      const firstMessage = chatArea.querySelector('.message-content');
+      if (firstMessage) {
+        firstMessage.innerHTML = こんにちは！福知山公立大学についてのご質問をお答えします。<br>
+            学生ハンドブックに関することでしたら、お気軽にお尋ねください。<br>
+            <small style="color: #666;">📚 ${this.qaData.length}件のQ&Aデータを読み込み済み</small>;
+      }
+    }
+  }
+
+  loadData(data) {
+    this.qaData = data;
+    this.questions = data.map(item => item.question);
+    this.answers = data.map(item => item.answer);
+  }
+
+  showStatus(message, type) {
+    const statusElement = document.getElementById('status');
+    if (statusElement) {
+      statusElement.textContent = message;
+      statusElement.className = status ${type};
+      statusElement.style.display = 'block';
+      setTimeout(() => {
+        statusElement.style.display = 'none';
+      }, 5000);
+    }
+  }
+
+  showDataLoadError() {
+    const chatArea = document.getElementById('chatArea');
+    if (chatArea) {
+      const errorMessage = document.createElement('div');
+      errorMessage.className = 'message bot';
+      errorMessage.innerHTML = 
+        <div class="message-content">
+          申し訳ございません。現在、データの読み込みに問題が発生しており、<br>
+          質問にお答えできません。<br><br>
+          <strong>お問い合わせ方法：</strong><br>
+          📧 メール: info@fukuchiyama.ac.jp<br>
+          📞 電話: 0773-00-0000<br>
+          🏢 窓口: 学生課（平日9:00-17:00）
+        </div>
+      ;
+      chatArea.appendChild(errorMessage);
+    }
+  }
+
+  handleSendMessage() {
+    const userInput = document.getElementById('userInput');
+    if (!userInput) return;
+    
+    const query = userInput.value.trim();
+    
+    if (!query) return;
+    
+    if (!this.isInitialized) {
+      this.showStatus('データの読み込みが完了していません。しばらくお待ちください。', 'error');
+      return;
+    }
+
+    // Googleフォームに質問を送信
+    this.formSubmitter.submitQuestion(query);
+
+    this.addMessage(query, 'user');
+    userInput.value = '';
+    
+    this.showLoading();
+    
+    setTimeout(() => {
+      const response = this.getResponse(query);
+      this.hideLoading();
+      this.addMessage(response, 'bot');
+    }, 1000);
+  }
+
+  addMessage(message, sender) {
+    const chatArea = document.getElementById('chatArea');
+    if (chatArea) {
+      const messageElement = document.createElement('div');
+      messageElement.className = message ${sender};
+      messageElement.innerHTML = <div class="message-content">${message}</div>;
+      chatArea.appendChild(messageElement);
+      chatArea.scrollTop = chatArea.scrollHeight;
+    }
+  }
+
+  showLoading() {
+    const loading = document.getElementById('loading');
+    if (loading) {
+      loading.style.display = 'block';
+    }
+  }
+
+  hideLoading() {
+    const loading = document.getElementById('loading');
+    if (loading) {
+      loading.style.display = 'none';
+    }
+  }
+
+  getResponse(query) {
+    const normalizedQuery = query.toLowerCase().trim();
+    
+    // 基本的な挨拶への対応
+    if (this.isGreeting(normalizedQuery)) {
+      return this.getGreetingResponse();
+    }
+    
+    // 感謝の言葉への対応
+    if (this.isThanks(normalizedQuery)) {
+      return 'どういたしまして！他にもご質問がございましたら、お気軽にどうぞ。';
+    }
+    
+    // Q&Aデータからの検索
+    const bestMatch = this.findBestMatch(normalizedQuery);
+    
+    if (bestMatch.score > 0.3) {
+      return ${bestMatch.answer}<br><br><small style="color: #666;">💡 関連する質問がございましたら、お気軽にお尋ねください。</small>;
+    }
+    
+    return this.getNoMatchResponse(query);
+  }
+
+  isGreeting(query) {
+    const greetings = ['こんにちは', 'こんばんは', 'おはよう', 'はじめまして', 'よろしく'];
+    return greetings.some(greeting => query.includes(greeting));
+  }
+
+  getGreetingResponse() {
+    const responses = [
+      'こんにちは！福知山公立大学についてのご質問をお答えします。',
+      'こんにちは！学生ハンドブックに関することでしたら、何でもお尋ねください。',
+      'こんにちは！大学生活についてのご質問をお待ちしております。'
+    ];
+    return responses[Math.floor(Math.random() * responses.length)];
+  }
+
+  isThanks(query) {
+    const thanks = ['ありがとう', 'ありがとうございます', 'サンキュー', 'おつかれ'];
+    return thanks.some(thank => query.includes(thank));
+  }
+
+  findBestMatch(query) {
+    let bestMatch = { score: 0, answer: '' };
+    
+    for (let i = 0; i < this.questions.length; i++) {
+      const score = this.calculateSimilarity(query, this.questions[i].toLowerCase());
+      if (score > bestMatch.score) {
+        bestMatch = { score, answer: this.answers[i] };
+      }
+    }
+    
+    return bestMatch;
+  }
+
+  calculateSimilarity(query, question) {
+    const queryWords = query.split(/\s+/);
+    const questionWords = question.split(/\s+/);
+    
+    let matchCount = 0;
+    const totalWords = Math.max(queryWords.length, questionWords.length);
+    
+    for (const queryWord of queryWords) {
+      if (queryWord.length > 1) {
+        for (const questionWord of questionWords) {
+          if (questionWord.includes(queryWord) || queryWord.includes(questionWord)) {
+            matchCount++;
+            break;
+          }
+        }
+      }
+    }
+    
+    return matchCount / totalWords;
+  }
+
+  getNoMatchResponse(originalQuery) {
+    const suggestions = [
+      'サークル用ロッカーは借りられますか？',
+      '新しいサークルや団体を設立するにはどうすればよいですか？',
+      'コピー機の設置場所と料金を教えてください。',
+      'バイク通学はできますか？',
+      '年間の授業の予定を知りたい',
+      'メディアセンターの開館時間と休館日を教えてください。'
+    ];
+    
+    const randomSuggestions = suggestions.sort(() => 0.5 - Math.random()).slice(0, 3);
+    
+    return 申し訳ございません。「${originalQuery}」に関する情報が見つかりませんでした。<br><br>
+        <strong>以下のような質問はいかがでしょうか：</strong><br>
+        • ${randomSuggestions.join('<br>• ')}<br><br>
+        <small style="color: #666;">💡 より具体的な質問をしていただくと、適切な回答ができるかもしれません。</small>;
+  }
+}
+
+// Initialize all functions when page loads
 document.addEventListener('DOMContentLoaded', () => {
-  new MenuManager();
-});
+  // メニューナビゲーション初期化
+  initMenuNavigation();
+  
+  // モバイルメニュー初期化
+  initMobileMenu();
+  
+  // チャットボット初期化（チャットボット要素が存在する場合のみ）
+  if (document.getElementById('chatArea')) {
+    new FukuchiyamaUniversityChatbot();
+  }
