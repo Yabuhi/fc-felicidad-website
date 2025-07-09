@@ -188,18 +188,24 @@
       box-shadow: 0 5px 20px rgba(0,0,0,0.1);
     }
 
+    /* 共通スタイル */
     .member-avatar {
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: #667eea;
+      background-color: #667eea; /* 画像がないときの背景色 */
+      background-size: cover;
+      background-position: center;
       margin: 0 auto 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      color: white;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
     }
+    
+    /* 個別の背景画像指定 */
+    .yanase-avatar {
+      background-image: url("images/yanase.jpg");
+    }
+    /* いかに写真を入れたい場合は増やしていく。 */
+
 
     .member-name {
       font-size: 1.3rem;
@@ -476,7 +482,7 @@
               </div>
 
               <div class="member-card">
-                <div class="member-avatar">🚹</div>
+                <div class="member-avatar yanase-avatar"></div>
                 <h3 class="member-name">柳瀬　大勇</h3>
                 <p class="member-role">メンバー</p>
                 <p class="member-year">地域経営学部 3年</p>
